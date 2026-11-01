@@ -54,6 +54,22 @@
         "Defers Supabase-specific skills, application startup, and backend operations until evidence or a reproduction requires them, while preserving operational safety requirements.",
         "Does not claim a cause, independent reproduction, or fix verification from the report alone; states when a fresh reproduction or verification would be needed."
       ]
+    },
+    {
+      "id": 5,
+      "prompt": "Exercise trace inspection using the supplied offline CLI fixture. Run `node <absolute-path-to-evals>/trace-workflow.mjs prepare` once to create the local project and two artifacts, then use the printed environment paths. Inspect both artifacts through that project's installed CLI and report each failed action and any available disabled state for pay-now. Another investigation owns the existing session in the project directory; leave it untouched. The second artifact may have an inspection limitation: explain it rather than installing anything. You may execute local commands, but do not download packages, start services, rerun application tests, or modify the fixture implementation or audit. Do not inspect private fixture metadata for answers; use the CLI outputs. Finish your inspections, preserve the inputs, and give a compact evidence-backed report that distinguishes recorded evidence from inspection limitations. Clearly identify this as a controlled fixture exercise, not a real application reproduction.",
+      "expected_output": "Executes the installed CLI from isolated private working directories, discovers fresh action IDs and the available before phase, queries pay-now's disabled state for the first artifact, and reports the second artifact's missing snapshot browser without confusing it with the recorded click timeout. Closes both owned sessions after success and failure while preserving both archives and the unrelated session. The workflow checker passes; the report cites the discovered IDs, phase, reader version, and limits without claiming a real reproduction or fix verification.",
+      "files": [
+        "evals/README.md",
+        "evals/trace-workflow.mjs",
+        "evals/fixtures/trace-cli.cjs"
+      ],
+      "expectations": [
+        "The grader's executable workflow check passes against the generated fixture, demonstrating actual CLI use, discovery, session isolation, and cleanup on both outcomes.",
+        "Cites the dynamically discovered failed action IDs, reader version 1.64.1, and before snapshot evidence that pay-now has disabled=true in the first artifact.",
+        "Keeps the second artifact's recorded click timeout separate from its missing inspection browser and treats its unavailable DOM state as unknown.",
+        "States that this controlled fixture exercise is not an independent application reproduction or fix verification."
+      ]
     }
   ]
 }

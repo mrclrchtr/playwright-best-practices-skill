@@ -7,6 +7,17 @@ on:
     branches: [main]
 
 jobs:
+  trace-workflow:
+    name: Trace Workflow Evaluation Harness
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Test offline trace inspection evaluation
+        run: node --test playwright-best-practices/evals/trace-workflow.test.mjs
+
   agnix:
     name: Agnix Lint
     runs-on: ubuntu-latest
