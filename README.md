@@ -16,7 +16,7 @@ A skill that gives the AI specialized guidance for writing, debugging, and maint
 npx skills add https://github.com/currents-dev/playwright-best-practices-skill
 ```
 
-The skill is activity-based: the AI is directed to the right reference depending on what you're doing, so you get focused advice without loading everything at once.
+The skill starts with a short [workflow router](playwright-best-practices/SKILL.md). Failures follow an artifact-first investigation before a new run is considered; other tasks use focused reference routes or the [full activity catalog](playwright-best-practices/reference-guide.md), without loading every guide.
 
 ## When the Skill Is Used
 
@@ -142,7 +142,7 @@ You don't have to mention "skill" or "Playwright best practices"; describe your 
 | Reporting        | `reporting.md`         | Test reporters, artifacts            |
 | Test coverage    | `test-coverage.md`     | V8 coverage, reports, thresholds, CI |
 
-The skill's `SKILL.md` maps your current activity to these references so the right content is used in context.
+The [activity catalog](playwright-best-practices/reference-guide.md) maps specialized tasks to these references. [SKILL.md](playwright-best-practices/SKILL.md) owns the troubleshooting and test-validation workflows.
 
 ## License
 

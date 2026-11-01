@@ -39,6 +39,21 @@
         "Offers the native Trace Viewer or an explicitly approved reader upgrade without recommending an unpinned download or handwritten trace decoder.",
         "Does not invent action IDs, results, snapshots, or an independent reproduction."
       ]
+    },
+    {
+      "id": 4,
+      "prompt": "Find the problem in this CI failure. For this evaluation, use only the supplied report and give a compact investigation plan rather than executing commands, downloading artifacts, or inspecting source. Identify the first evidence to inspect, which reference guides to load, and when a fresh run or backend investigation would be warranted. Distinguish what the report establishes from what remains unknown.",
+      "expected_output": "Identifies the invoice-dialog timeout as the primary reported failure and the measurement test as interrupted, not an independently proven defect. Starts with matching test/project/revision artifacts and debugging/trace-inspection.md, then the failed action, preceding action results, and available snapshots. Defers source reading to the implicated helper/application code with revision alignment. Does not infer a responsive race or backend cause from the report alone, load all references, or require service setup. Reproduction is conditional on insufficient evidence; an eventual fix requires independent verification.",
+      "files": [
+        "evals/files/ci-failure-report.txt"
+      ],
+      "expectations": [
+        "Separates the primary invoice-dialog timeout from the measurement test interrupted after maxFailures.",
+        "Starts with matching artifacts and debugging/trace-inspection.md; plans inspection of relevant actions/results and available snapshot phases before a fresh run.",
+        "Scopes subsequent source/reference reading to the evidence and checks source/revision alignment rather than loading the entire catalog.",
+        "Defers Supabase-specific skills, application startup, and backend operations until evidence or a reproduction requires them, while preserving operational safety requirements.",
+        "Does not claim a cause, independent reproduction, or fix verification from the report alone; states when a fresh reproduction or verification would be needed."
+      ]
     }
   ]
 }

@@ -1,0 +1,18 @@
+Sanitized CI report excerpt. This report is the only supplied runtime evidence; the listed artifacts exist but their contents have not been inspected.
+
+Revision: 0123456789abcdef0123456789abcdef01234567
+Project: chromium-isolated
+
+FAILED: invoices-dialog.spec.ts:110
+  uses responsive modal layouts for mobile and desktop
+  locator.click: Test timeout of 60000ms exceeded.
+  Waiting for getByTestId('invoices-create-manual')
+  Source: pages/invoice-dialog.page.ts:20
+  Artifacts for this test and revision: screenshot.png, error-context.md, trace.zip
+
+Testing stopped early after 1 maximum allowed failures.
+
+INTERRUPTED: mill-measures.spec.ts:440
+  can cancel and confirm measurement deletion
+
+The application uses Supabase. This excerpt contains no database or authentication error. No source files, trace actions, or snapshots have been supplied yet.

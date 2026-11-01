@@ -1,5 +1,7 @@
 # Debugging & Troubleshooting
 
+Start with the [artifact-first troubleshooting workflow](../SKILL.md#troubleshoot-a-failure). This reference supplies tools for a fresh reproduction or deeper investigation when existing evidence is insufficient; read only the relevant technique below.
+
 ## Table of Contents
 
 1. [Debug Tools](#debug-tools)
@@ -348,14 +350,13 @@ await page.getByRole("button").click();
 
 ### Timeout Issues
 
+Inspect the timed-out action and preceding state transitions first. A missing menu item, skipped branch, or unmet readiness condition needs a state-aware fix, not simply more time. Use a longer timeout only when evidence establishes a legitimately slower operation and the repository permits it.
+
 ```typescript
-// Increase timeout for slow operations
+// Wait for the required state with an evidence-based timeout
 await expect(page.getByText("Loaded")).toBeVisible({ timeout: 30000 });
 
-// Global timeout increase
-test.setTimeout(60000);
-
-// Check what's blocking
+// Capture targeted evidence during a fresh reproduction
 test("debug timeout", async ({ page }) => {
   await page.goto("/slow-page");
 
@@ -440,7 +441,7 @@ test("with attachments", async ({ page }, testInfo) => {
 | Symptom                                       | Common Causes                                                | Quick Fixes                                                         | Reference                                                                  |
 | --------------------------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------------- | -------------------------------------------------------------------------- |
 | **Element not found**                         | Wrong selector, element not visible, in iframe, timing issue | Check locator with Inspector, wait for visibility, use frameLocator | [locators.md](../core/locators.md), [assertions-waiting.md](../core/assertions-waiting.md) |
-| **Timeout errors**                            | Slow network, heavy page load, waiting for wrong condition   | Increase timeout, wait for specific response, check network tab     | [assertions-waiting.md](../core/assertions-waiting.md)                             |
+| **Timeout errors**                            | Slow network, heavy page load, waiting for wrong condition   | Inspect preceding actions/snapshots; wait for the required state    | [assertions-waiting.md](../core/assertions-waiting.md)                             |
 | **Flaky tests**                               | Race conditions, shared state, timing dependencies           | See comprehensive flaky test guide                                  | [flaky-tests.md](flaky-tests.md)                                           |
 | **Tests pass locally, fail in CI**            | Environment differences, missing dependencies, timing        | Simulate CI locally, check CI logs, verify environment vars         | [ci-cd.md](../infrastructure-ci-cd/ci-cd.md), [flaky-tests.md](flaky-tests.md)                     |
 | **Slow test execution**                       | Not parallelized, heavy network calls, unnecessary waits     | Enable parallelization, mock APIs, optimize waits                   | [performance.md](../infrastructure-ci-cd/performance.md)                                           |
@@ -449,55 +450,17 @@ test("with attachments", async ({ page }, testInfo) => {
 
 ### Step-by-Step Debugging Process
 
-1. **Inspect existing evidence or capture a reproduction**
+Use [artifact-first troubleshooting](../SKILL.md#troubleshoot-a-failure) to identify the failure and decide whether a fresh run is needed. Once reproduction is required:
 
-   If a trace already exists, follow [Trace Viewer](#trace-viewer) first. Capture a new reproduction when the artifact is insufficient or when verifying a fix; inspecting an archive alone is not a reproduction.
-
-   ```bash
-   # Capture a trace when a fresh run is needed
-   npx playwright test tests/failing.spec.ts --trace on
-
-   # If intermittent, run multiple times
-   npx playwright test --repeat-each=10
-   ```
-
-2. **Inspect the failure**
+1. **Scope the run** to the failing test and project using the repository's runner. Capture a trace rather than rerunning the full suite by default:
 
    ```bash
-   # View trace
-   npx playwright show-trace test-results/path-to-trace.zip
-
-   # Run in headed mode to watch
-   npx playwright test --headed
-
-   # Use inspector for step-by-step
-   PWDEBUG=1 npx playwright test
+   npx playwright test tests/failing.spec.ts --project=chromium --trace on
    ```
 
-3. **Isolate the problem**
-
-   ```typescript
-   // Add debugging points
-   await page.pause();
-
-   // Log element state
-   console.log("Element count:", await page.getByRole("button").count());
-   console.log("Element visible:", await page.getByRole("button").isVisible());
-
-   // Take screenshot at failure point
-   await page.screenshot({ path: "debug.png" });
-   ```
-
-4. **Check related areas**
-   - Network requests: Are API calls completing? (see [Debugging Network Issues](#debugging-network-issues))
-   - Timing: Is auto-waiting working correctly?
-   - State: Is the test isolated? (see [flaky-tests.md](flaky-tests.md))
-   - Environment: Does it work locally but fail in CI? (see [Debugging in CI](#debugging-in-ci))
-
-5. **Apply fix and verify**
-   - Fix the root cause (not just symptoms)
-   - Run multiple times to confirm stability: `--repeat-each=10`
-   - Check related tests aren't affected
+2. **Choose one probe** that distinguishes the remaining hypotheses: a targeted [network observation](#debugging-network-issues), [element-state check](#selector-issues), [isolation check](flaky-tests.md), or [CI comparison](#debugging-in-ci). Use the Inspector or headed mode when interactive observation is needed.
+3. **Inspect the new evidence** with [Trace inspection](trace-inspection.md). Record the decisive sequence and whether it reproduces the original failure rather than a different setup or inspection problem.
+4. **For a requested fix, verify the change** against the same focused reproduction, then follow [test validation](../SKILL.md#validate-test-changes) for repetition and related coverage. Report unavailable or failing checks explicitly.
 
 ## Related References
 
