@@ -1,0 +1,44 @@
+Sanitized native CLI excerpts from a recorded Playwright trace. These are supplied evidence, not a live reproduction. Only the listed excerpts are available to the evaluator.
+
+$ playwright --version
+Version 1.64.1
+
+$ playwright trace open /artifacts/invoice-dialog/trace.zip
+  Playwright:   1.64.1
+  Title:        invoices-dialog.spec.ts:110 › uses responsive modal layouts for mobile and desktop
+  Duration:     1.0m
+  Pages:        1
+
+$ playwright trace actions --grep 'invoices-create|Is visible'
+   13. 0:00.366  Expect "toBeVisible"                       31ms
+                 getByTestId('invoices-create').or(getByTestId('invoices-create-manual')).visible()
+   14. 0:00.398  Is visible                                 28ms
+                 getByTestId('invoices-create')
+   15. 0:00.426  Click                                     59.6s  ✗
+                 getByTestId('invoices-create-manual')
+
+$ playwright trace action 14
+  Is visible getByTestId('invoices-create')
+  Return value
+    value: false
+  Source
+    invoice-dialog.page.ts:19:26
+    invoices-dialog.spec.ts:115:5
+  Snapshots
+    available: before, after
+
+$ playwright trace action 15
+  Click getByTestId('invoices-create-manual')
+  Error
+    Error: locator.click: Test timeout of 60000ms exceeded.
+    Call log:
+      - waiting for getByTestId('invoices-create-manual')
+  Source
+    invoice-dialog.page.ts:20:22
+    invoices-dialog.spec.ts:115:5
+  Snapshots
+    available: before
+
+$ playwright trace snapshot 15 --phase before -- eval '<targeted create-control attribute query>'
+### Result
+"[{\"id\":\"invoices-create\",\"expanded\":\"false\"}]"

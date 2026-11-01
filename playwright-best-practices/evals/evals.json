@@ -1,0 +1,44 @@
+{
+  "skill_name": "playwright-best-practices",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Find why this invoice-dialog click timed out using the supplied sanitized trace excerpts. Give a compact evidence-backed explanation, distinguish observation from inference, and state what has not been verified. The excerpts are the only runtime evidence available: do not inspect application source, download artifacts, or run commands. Suggest a targeted native trace command only if more evidence is needed.",
+      "expected_output": "Cites actions 14 and 15 and snapshot phase before; explains that the create trigger was not visible at the visibility check but present with aria-expanded=false before the stalled manual-create click; does not infer the viewport from that attribute. Treats the responsive transition as a supported explanation rather than a source-verified cause, and does not claim independent reproduction.",
+      "files": [
+        "evals/files/locator-timeout.txt"
+      ],
+      "expectations": [
+        "Cites action 14's false visibility result and action 15's manual-create timeout.",
+        "Uses action 15's before snapshot as evidence of a present, collapsed create control and identifies a timing/control-selection explanation without claiming source or viewport verification.",
+        "States that supplied excerpts are not an independently executed reproduction or fix verification."
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "The snapshot inspector says 139 console errors. Did the checkout application produce those errors during the failing test, and what should we extract next? Use only the supplied excerpts; do not execute commands or inspect source. Return the conclusion, limits, and the next narrow trace command. Keep any original test failure separate from inspection problems.",
+      "expected_output": "Distinguishes snapshot-replay diagnostics from recorded console evidence; does not attribute the 139 errors to the original application run, infer missing DOM state, or request an unavailable after phase. Suggests a targeted before-snapshot query with the native CLI, noting it is a proposed command rather than an executed one.",
+      "files": [
+        "evals/files/replay-diagnostics.txt"
+      ],
+      "expectations": [
+        "Distinguishes the 139 snapshot-replay errors from the supplied recorded-console evidence.",
+        "Treats the missing original DOM state and child-frame contents as unknown rather than absent or false.",
+        "Proposes a targeted native snapshot command using available phase before, without claiming it was executed."
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "I need the failed action and its DOM state from this trace.zip, but the installed CLI output is in the supplied environment description. Tell me how to proceed without changing dependencies or starting services. Treat the description as the only runtime evidence and do not execute commands; describe the next safe step rather than running it.",
+      "expected_output": "Reports that installed Playwright 1.51.0 lacks the trace subcommand, cannot extract the requested evidence from the supplied output, and offers the native Trace Viewer or an explicitly approved reader upgrade. Does not invent action IDs, results, snapshots, or claim a reproduction.",
+      "files": [
+        "evals/files/unsupported-reader.txt"
+      ],
+      "expectations": [
+        "Reports that installed Playwright 1.51.0 lacks trace and that the supplied evidence cannot reveal the failed action or DOM state.",
+        "Offers the native Trace Viewer or an explicitly approved reader upgrade without recommending an unpinned download or handwritten trace decoder.",
+        "Does not invent action IDs, results, snapshots, or an independent reproduction."
+      ]
+    }
+  ]
+}

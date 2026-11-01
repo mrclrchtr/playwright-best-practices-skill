@@ -84,6 +84,8 @@ test("debug example", async ({ page }) => {
 
 ## Trace Viewer
 
+For an existing `trace.zip` or CI trace artifact, start with [Trace inspection](trace-inspection.md). It covers native CLI extraction, isolated inspection sessions, and recorded versus snapshot-replay evidence. The interactive viewer below remains useful for human inspection or when the installed CLI lacks the `trace` subcommand.
+
 ### Enable Traces
 
 ```typescript
@@ -447,10 +449,12 @@ test("with attachments", async ({ page }, testInfo) => {
 
 ### Step-by-Step Debugging Process
 
-1. **Reproduce the issue**
+1. **Inspect existing evidence or capture a reproduction**
+
+   If a trace already exists, follow [Trace Viewer](#trace-viewer) first. Capture a new reproduction when the artifact is insufficient or when verifying a fix; inspecting an archive alone is not a reproduction.
 
    ```bash
-   # Run with trace enabled
+   # Capture a trace when a fresh run is needed
    npx playwright test tests/failing.spec.ts --trace on
 
    # If intermittent, run multiple times

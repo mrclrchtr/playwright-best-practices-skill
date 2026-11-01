@@ -1,6 +1,6 @@
 ---
 name: playwright-best-practices
-description: Use when writing Playwright tests, fixing flaky tests, debugging failures, implementing Page Object Model, configuring CI/CD, optimizing performance, mocking APIs, handling authentication or OAuth, testing accessibility (axe-core), file uploads/downloads, date/time mocking, WebSockets, geolocation, permissions, multi-tab/popup flows, mobile/responsive layouts, touch gestures, GraphQL, error handling, offline mode, multi-user collaboration, third-party services (payments, email verification), console error monitoring, global setup/teardown, test annotations (skip, fixme, slow), test tags (@smoke, @fast, @critical, filtering with --grep), project dependencies, security testing (XSS, CSRF, auth), performance budgets (Web Vitals, Lighthouse), iframes, component testing, canvas/WebGL, service workers/PWA, test coverage, i18n/localization, Electron apps, or browser extension testing. Covers E2E, component, API, visual, accessibility, security, Electron, and extension testing.
+description: Use when writing Playwright tests, fixing flaky tests, debugging failures, inspecting trace.zip artifacts, implementing Page Object Model, configuring CI/CD, optimizing performance, mocking APIs, handling authentication or OAuth, testing accessibility (axe-core), file uploads/downloads, date/time mocking, WebSockets, geolocation, permissions, multi-tab/popup flows, mobile/responsive layouts, touch gestures, GraphQL, error handling, offline mode, multi-user collaboration, third-party services (payments, email verification), console error monitoring, global setup/teardown, test annotations (skip, fixme, slow), test tags (@smoke, @fast, @critical, filtering with --grep), project dependencies, security testing (XSS, CSRF, auth), performance budgets (Web Vitals, Lighthouse), iframes, component testing, canvas/WebGL, service workers/PWA, test coverage, i18n/localization, Electron apps, or browser extension testing. Covers E2E, component, API, visual, accessibility, security, Electron, and extension testing.
 license: MIT
 metadata:
   author: currents.dev
@@ -74,6 +74,7 @@ Consult these references based on what you're doing:
 
 | Activity                                          | Reference Files                                                                                                                                |
 | ------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Inspecting existing trace.zip / CI artifacts before rerunning tests** | [trace-inspection.md](debugging/trace-inspection.md) |
 | **Debugging test failures**                       | [debugging.md](debugging/debugging.md), [assertions-waiting.md](core/assertions-waiting.md)                                                    |
 | **Fixing flaky tests**                            | [flaky-tests.md](debugging/flaky-tests.md), [debugging.md](debugging/debugging.md), [assertions-waiting.md](core/assertions-waiting.md)        |
 | **Debugging flaky parallel runs**                 | [flaky-tests.md](debugging/flaky-tests.md), [performance.md](infrastructure-ci-cd/performance.md), [fixtures-hooks.md](core/fixtures-hooks.md) |
@@ -239,6 +240,7 @@ What are you doing?
 │  └─ Complex flows (MFA, reset) → advanced/authentication-flows.md
 │
 ├─ Test is failing/flaky?
+│  ├─ Existing trace.zip / CI artifact → debugging/trace-inspection.md
 │  ├─ Flaky test investigation → debugging/flaky-tests.md
 │  ├─ Element not found → core/locators.md, debugging/debugging.md
 │  ├─ Timeout issues → core/assertions-waiting.md, debugging/debugging.md
@@ -296,7 +298,7 @@ After writing or modifying tests:
 
 1. **Run tests**: `npx playwright test --reporter=list`
 2. **If tests fail**:
-   - Review error output and trace (`npx playwright show-trace`)
+   - Review error output and any existing trace ([trace-inspection.md](debugging/trace-inspection.md))
    - Fix locators, waits, or assertions
    - Re-run tests
 3. **Only proceed when all tests pass**

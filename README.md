@@ -34,6 +34,7 @@ The skill triggers when the AI infers you need help with things like:
 - Performance testing with Web Vitals or Lighthouse
 - Reviewing or refactoring Playwright test code
 - Fixing flaky tests or debugging failures
+- Inspecting recorded `trace.zip` / CI artifacts with the project-installed CLI
 - Setting up CI/CD, test coverage, or global setup/teardown
 - Configuring projects, dependencies, parallel runs, or sharding
 
@@ -41,7 +42,7 @@ You don't have to mention "skill" or "Playwright best practices"; describe your 
 
 ## What's Inside
 
-**57 reference documents** organized into 8 categories:
+**59 reference documents** organized into 8 categories:
 
 ### Core (`core/`)
 
@@ -63,6 +64,7 @@ You don't have to mention "skill" or "Playwright best practices"; describe your 
 | Topic          | Reference            | Use for                                    |
 | -------------- | -------------------- | ------------------------------------------ |
 | Debugging      | `debugging.md`       | Trace viewer, inspector, common issues     |
+| Trace inspection | `trace-inspection.md` | Native CLI extraction, snapshot evidence, isolated sessions |
 | Flaky tests    | `flaky-tests.md`     | Detection, diagnosis, fixing, quarantine   |
 | Error testing  | `error-testing.md`   | Error boundaries, offline, network failures |
 | Console errors | `console-errors.md`  | Capturing and failing on JS errors         |

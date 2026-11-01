@@ -1,0 +1,23 @@
+Synthetic native-CLI-shaped evidence for testing interpretation. No archive is supplied, no commands have been executed by the evaluator, and source code is unavailable.
+
+Trace reader: 1.64.1
+Test: checkout.spec.ts › completes an order
+
+$ playwright trace action 27
+  Click getByTestId('order-submit')
+  Error
+    Error: locator.click: Timeout 30000ms exceeded.
+  Snapshots
+    available: before
+
+$ playwright trace console --errors-only
+(no recorded console-error entries)
+
+$ playwright trace snapshot 27 --phase before
+### Page
+- Page URL: http://localhost:49152/snapshot/call27?phase=before
+- Console: 139 errors, 0 warnings
+### Events
+- New console entries: .playwright-cli/console-replay.log
+
+The default accessibility snapshot was omitted by the supplied excerpt. The selector's original DOM state, child-frame contents, and return values are not supplied.
